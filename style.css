@@ -1,0 +1,115 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark light;
+}
+
+:root {
+  --body-bg: hsl(0, 0%, 12%);
+}
+body {
+  background: var(--body-bg);
+  color: white; /*Fallback for color-scheme*/
+  font-family: system-ui;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.wrapper {
+  max-width: 50rem;
+  margin-inline: auto; /*Will act as left and right*/
+  padding-inline: 1rem;
+}
+
+.site-title {
+  font-size: 3rem;
+  text-align: center;
+}
+.section-title {
+  font-size: 2.25rem;
+}
+
+section {
+  padding-block: 2.5rem; /* Will act as top and bottom  */
+}
+
+.diagonal {
+  --skew-angle: -5deg; /*creating custom property*/
+  --background: linear-gradient(45deg, #12c2e9, #c471ed, #f64f59);
+
+  position: relative;
+  isolation: isolate; /*Used to keep the z-index isolated from other elements, we do this to keep this future proof so that just in case in future new elements added our z-index do not face any trouble*/
+}
+
+.diagonal::after {
+  content: "";
+  /* background: steelblue; */
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+
+  /* transform: skewY(-5deg); */
+  /*Lets replace 👆️ this line with an custom property*/
+
+  /*using custom 👇️👇️properties here*/
+  transform: skewY(var(--skew-angle));
+  background-image: var(--background);
+}
+
+.spikes {
+  --spike-color: var(--body-bg);
+  --spike-width: 50px;
+  --spike-height: 10px;
+
+  position: relative;
+  color: black;
+  background: linear-gradient(to right, #fdc830, #f37335);
+}
+
+.spikes::after,
+.spikes::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: var(--spike-height);
+  background: var(--spike-color);
+
+  -webkit-mask-image: url(Assets/triangle.svg);
+  -webkit-mask-size: var(--spike-width) var(--spike-height);
+  /* -webkit-mask-repeat:repeat-x; */
+
+  /* For Firefox and safari */
+
+  mask-image: url(Assets/triangle.svg);
+  mask-size: var(--spike-width) var(--spike-height);
+  /* mask-repeat:repeat-x; */
+}
+
+.spikes::after {
+  top: 0;
+}
+
+.spikes::before {
+  bottom: 0;
+  transform: rotate(0.5turn); /*rotating 180 degree*/
+}
+
+.wavy {
+  background: linear-gradient(to right, #00f260, #0575e6);
+
+  --mask: radial-gradient(50.39px at 50% 68.75px, #000 99%, #0000 101%)
+      calc(50% - 50px) 0/100px 51% repeat-x,
+    radial-gradient(50.39px at 50% -43.75px, #0000 99%, #000 101%) 50% 25px/100px
+      calc(51% - 25px) repeat-x,
+    radial-gradient(50.39px at 50% calc(100% - 68.75px), #000 99%, #0000 101%)
+      calc(50% - 50px) 100%/100px 51% repeat-x,
+    radial-gradient(50.39px at 50% calc(100% + 43.75px), #0000 99%, #000 101%)
+      50% calc(100% - 25px) / 100px calc(51% - 25px) repeat-x;
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
+}
